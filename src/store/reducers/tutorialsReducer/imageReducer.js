@@ -3,6 +3,7 @@ import * as actions from "../../actions/actionTypes";
 const initialState = {
   uploading: false,
   uploading_error: null,
+  progress: {},
   deleting: false,
   deleting_error: null
 };
@@ -16,7 +17,17 @@ const TutorialsImageReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         uploading: true,
-        uploading_error: null
+        uploading_error: null,
+        progress: {}
+      };
+
+    case actions.TUTORIAL_IMAGE_UPLOAD_PROGRESS:
+      return {
+        ...state,
+        progress: {
+          ...state.progress,
+          [payload.fileName]: payload.progress
+        }
       };
 
     case actions.TUTORIAL_IMAGE_UPLOAD_SUCCESS:
