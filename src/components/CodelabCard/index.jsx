@@ -12,18 +12,74 @@ import ChatIcon from "@mui/icons-material/Chat";
 import useStyles from "./styles";
 import PropTypes from "prop-types";
 
+import Skeleton from "@mui/material/Skeleton";
+
 const CardComponent = ({
   title = "I made 100 more CSS loaders for your next project",
   tags = "#css #webdev #beginners #html",
   profilePic = "demoperson4.jpeg",
   org = false,
-  background = "white"
+  background = "white",
+  userName = "Demo Name",
+  orgName = "ScoreLabz",
+  date = "May 25, 2021",
+  likes = 222,
+  comments = 20,
+  readTime = "10 min read",
+  loading = false,
+  logo = "/logo.jpeg"
 }) => {
   const classes = useStyles();
-  const [logoPath, setLogoPath] = React.useState("");
-  React.useEffect(() => {
-    setLogoPath(org);
-  }, [org]);
+
+  if (loading) {
+    return (
+      <Card className={classes.card} style={{ background: background }}>
+        <CardHeader
+          avatar={
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              width={40}
+              height={40}
+            />
+          }
+          title={
+            <Skeleton
+              animation="wave"
+              height={10}
+              width="80%"
+              style={{ marginBottom: 6 }}
+            />
+          }
+          subheader={<Skeleton animation="wave" height={10} width="40%" />}
+        />
+        <CardContent>
+          <Skeleton animation="wave" height={10} style={{ marginBottom: 6 }} />
+          <Skeleton animation="wave" height={10} width="80%" />
+        </CardContent>
+        <CardActions disableSpacing>
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item xs={6}>
+              <Skeleton
+                animation="wave"
+                height={10}
+                width="30%"
+                style={{ marginLeft: "1rem" }}
+              />
+            </Grid>
+            <Grid item xs={6} container justify="flex-end">
+              <Skeleton
+                animation="wave"
+                height={30}
+                width="40%"
+                style={{ marginRight: "1rem" }}
+              />
+            </Grid>
+          </Grid>
+        </CardActions>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -44,26 +100,34 @@ const CardComponent = ({
               justify="center"
               alignItems="center"
             >
-              {logoPath ? (
+              {org ? (
                 <Grid container>
                   <Grid item className={classes.headerGrid}>
+                    <img src={logo} alt="logo" className={classes.logoImg} />
                     <img
-                      src="/logo.jpeg"
-                      alt="logo"
-                      className={classes.logoImg}
-                    />
-                    <img
-                      src={require(`../../assets/images/${profilePic}`).default}
+                      src={
+                        profilePic.startsWith("http")
+                          ? profilePic
+                          : new URL(
+                              `../../assets/images/${profilePic}`,
+                              import.meta.url
+                            ).href
+                      }
                       alt=""
-                      height="20rem"
-                      width="20rem"
                       className={classes.personImg}
                     />
                   </Grid>
                 </Grid>
               ) : (
                 <img
-                  src={require(`../../assets/images/${profilePic}`).default}
+                  src={
+                    profilePic.startsWith("http")
+                      ? profilePic
+                      : new URL(
+                          `../../assets/images/${profilePic}`,
+                          import.meta.url
+                        ).href
+                  }
                   alt=""
                   className={classes.avatar}
                 />
@@ -73,14 +137,14 @@ const CardComponent = ({
           title={
             org ? (
               <Typography variant="body">
-                Demo Name {<span style={{ color: "#7D7C7D" }}>for</span>}{" "}
-                ScoreLabz
+                {userName} {<span style={{ color: "#7D7C7D" }}>for</span>}{" "}
+                {orgName}
               </Typography>
             ) : (
-              <Typography variant="body">Demo Name</Typography>
+              <Typography variant="body">{userName}</Typography>
             )
           }
-          subheader="May25,2021(3 days ago)"
+          subheader={date}
           titleTypographyProps={{ align: "left" }}
           subheaderTypographyProps={{ align: "left" }}
         />
@@ -125,33 +189,31 @@ const CardComponent = ({
             direction="row"
             data-testId="codelabzCardButtonGroup"
           >
-            <Grid item direction="row">
-              {!org ? (
-                <Grid item style={{ height: "2rem" }}>
-                  <IconButton style={{ color: "red" }}>
-                    <FavoriteIcon />
-                  </IconButton>
-                  <Typography variant="body" color="textPrimary">
-                    222
-                  </Typography>
-                </Grid>
-              ) : (
-                ""
-              )}
-            </Grid>
-            <Grid item>
+            {!org && (
+              <Grid item container alignItems="center" xs="auto">
+                <IconButton style={{ color: "red" }}>
+                  <FavoriteIcon />
+                </IconButton>
+                <Typography
+                  variant="body"
+                  color="textPrimary"
+                  className={classes.statsCount}
+                >
+                  {likes}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item container alignItems="center" xs="auto">
               <IconButton aria-label="comment" style={{ color: "green" }}>
                 <ChatIcon />
               </IconButton>
-              {org ? (
-                <Typography variant="body" color="textPrimary">
-                  comment
-                </Typography>
-              ) : (
-                <Typography variant="body" color="textPrimary">
-                  20
-                </Typography>
-              )}
+              <Typography
+                variant="body"
+                color="textPrimary"
+                className={classes.statsCount}
+              >
+                {org ? "comment" : comments}
+              </Typography>
             </Grid>
           </Grid>
           <Grid
@@ -161,14 +223,13 @@ const CardComponent = ({
             justify="flex-end"
             alignItems="center"
           >
-            <Grid item xs={3}>
+            <Grid item>
               <Typography
                 variant="body2"
                 color="textSecondary"
-                alignItems="flex-end"
                 className={classes.readTime}
               >
-                10 min read
+                {readTime}
               </Typography>
             </Grid>
             <Grid item>
@@ -192,6 +253,14 @@ CardComponent.propTypes = {
   tags: PropTypes.string,
   profilePic: PropTypes.string,
   org: PropTypes.bool,
-  background: PropTypes.string
+  background: PropTypes.string,
+  userName: PropTypes.string,
+  orgName: PropTypes.string,
+  date: PropTypes.string,
+  likes: PropTypes.number,
+  comments: PropTypes.number,
+  readTime: PropTypes.string,
+  loading: PropTypes.bool,
+  logo: PropTypes.string
 };
 export default CardComponent;

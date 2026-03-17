@@ -2,105 +2,107 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    margin: ".5rem",
-    width: "50vw",
+    margin: theme.spacing(1),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "45vw"
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "50vw"
+    },
     position: "relative",
-    maxWidth: "80vw",
+    maxWidth: "100%",
     textAlign: "left",
     minHeight: "20vh",
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column",
-    [theme.breakpoints.down(750)]: {
-      width: "90vw"
-    }
+    flexDirection: "column"
   },
   heading: {
     fontWeight: 700,
-    marginTop: "-.5rem",
-    [theme.breakpoints.down(750)]: {
-      fontSize: "1rem"
+    marginTop: theme.spacing(-1),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.1rem"
     }
   },
   body: {
-    padding: "0rem 2rem 0rem 3.5rem",
-    paddingBottom: "0rem",
-    [theme.breakpoints.down(750)]: {
-      padding: "0rem 1rem 0rem 1rem",
-      justify: "center",
-      textAlign: "left"
+    padding: theme.spacing(0, 4, 0, 7),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0, 2)
     }
   },
   tags: {
     fontWeight: "500",
-    color: "#455A64"
+    color: theme.palette.text.secondary
   },
   avatar: {
-    height: "2rem",
-    width: "2rem",
-    position: "relative",
-    left: "1rem",
-    border: "1.5px solid black",
-    borderRadius: "500px"
+    height: "2.5rem",
+    width: "2.5rem",
+    border: `1.5px solid ${theme.palette.divider}`,
+    borderRadius: "50%"
   },
   cardContent: {
-    paddingTop: "1rem"
+    paddingTop: theme.spacing(2)
   },
   cardAction: {
-    padding: "0rem 0rem 0rem 3.8rem",
-    [theme.breakpoints.down(750)]: {
-      padding: "0"
+    padding: theme.spacing(0, 0, 0, 7.5),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0, 2)
     }
   },
   button: {
-    background: "#BCBCBC",
-    width: "1rem",
-    height: "2rem",
-    marginBottom: ".5rem",
-    [theme.breakpoints.down(750)]: {
-      height: "1.4rem"
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0.5, 1)
     }
   },
   logo: {
     width: "2.5rem",
     height: "2rem",
-    marginTop: "0rem",
     zIndex: "1"
   },
   organizationLogo: {
     display: "flex",
-    alignItems: "left",
+    alignItems: "center",
     justifyContent: "flex-start",
-    flexDirecton: "column",
-    paddingRight: "10px",
+    paddingRight: theme.spacing(1),
     width: "auto"
   },
   cardHeader: {
-    padding: "1rem 1rem 0rem 1rem"
+    padding: theme.spacing(2, 2, 0, 2)
+  },
+  statsCount: {
+    [theme.breakpoints.down(600)]: {
+      display: "none"
+    }
   },
   readTime: {
-    [theme.breakpoints.down(750)]: {
-      fontSize: ".5rem",
-      background: "red",
+    whiteSpace: "nowrap",
+    [theme.breakpoints.down("sm")]: {
       display: "none"
     }
   },
   headerGrid: {
-    width: "2rem",
-    height: ".5rem",
-    marginTop: "-1.5rem",
-    border: "0.1px solid #f4f4f4"
+    display: "flex",
+    alignItems: "center",
+    position: "relative"
   },
   personImg: {
     zIndex: 2,
-    position: "relative",
-    left: "1.5rem",
-    top: "-.6rem",
-    border: "1px solid black",
-    borderRadius: "500px"
+    height: "2.5rem",
+    width: "2.5rem",
+    border: `1.5px solid ${theme.palette.common.black}`,
+    borderRadius: "50%"
   },
   logoImg: {
-    height: "1rem"
+    height: "1.2rem",
+    position: "absolute",
+    right: -5,
+    bottom: -5,
+    zIndex: 3,
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: "50%",
+    padding: "2px"
   }
 }));
 
